@@ -1,5 +1,6 @@
 #!/bin/bash
 # script to open clipboard content in neovim
+# random change
 
 if [[ $XDG_SESSION_TYPE == "wayland" ]]; then
   clip_content=$(wl-paste)
