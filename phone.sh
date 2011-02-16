@@ -1,9 +1,15 @@
 #!/bin/bash
-adb connect 192.168.0.124
+PHONE_IP=$(arp -a | grep '(' | awk -F '[()]' '{print $2}')
+PHONE_SERIAL=$(adb devices | head -n 2 | tail -n 1 | awk '{print $1}')
+if [ -n "$PHONE_SERIAL" ]; then
+  echo "Phone is already connected no need to connect again"
+else
+  adb connect $PHONE_IP
+fi
+PHONE_SERIAL=$(adb devices | head -n 2 | tail -n 1 | awk '{print $1}')
+echo "Phone serial: $PHONE_SERIAL"
 kdialog --passivepopup "adb successfully connected" 3
-# Check phone status using adb
-PHONE_STATUS=$(adb shell dumpsys power | grep 'mHoldingDisplaySuspendBlocker')
-
+PHONE_STATUS=$(adb -s $PHONE_SERIAL shell dumpsys power | grep 'mHoldingDisplaySuspendBlocker')
 if [ -z "$PHONE_STATUS" ]; then
   echo "Failed to retrieve phone status. Make sure the device is connected and adb is authorized."
   kdialog --passivepopup "Failed to retrieve phone status. Make sure the device is connected and adb is authorized." 3
@@ -14,24 +20,23 @@ fi
 if [[ "$PHONE_STATUS" == *"mHoldingDisplaySuspendBlocker=false"* ]]; then
 
   # pressing the power button
-  adb shell input keyevent 26
-  scrcpy --turn-screen-off &
+  adb -s $PHONE_SERIAL shell input keyevent 26
+  scrcpy -s $PHONE_SERIAL --turn-screen-off &
   sleep 3
   kdialog --passivepopup "scrcpy connected successfully" 2
-
   sleep 1
-
   phonePassword=$(kdialog --password "Phone Password")
-  adb shell input swipe 100 2000 100 60 500
+  adb -s $PHONE_SERIAL shell input swipe 100 2000 100 60 500
   #🙂🙂🙂
+  sleep 1
   if [[ "$phonePassword"=="a" ]]; then
-    adb shell input text YourPassword
+    adb -s $PHONE_SERIAL shell input text YourPassword
   else
-    adb shell input text $phonePassword
+    adb -s $PHONE_SERIAL shell input text $phonePassword
   fi
   kdialog --passivepopup "DONE!" 2
 else
   kdialog --passivepopup "DONE!" 2
-  scrcpy --turn-screen-off
+  scrcpy -s $PHONE_SERIAL --turn-screen-off
 
 fi
