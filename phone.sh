@@ -39,6 +39,6 @@ if [[ "$PHONE_STATUS" == *"mHoldingDisplaySuspendBlocker=false"* ]]; then
     adb  shell input text 1598753
 else
     echo "Phone is on."
-    scrcpy
+    scrcpy  --turn-screen-off
     
 fi
