@@ -12,7 +12,7 @@ if (( $(echo "$new_brightness > 1.0" | bc -l) )); then
 fi
 
 # Set the new brightness value
-xrandr --output eDP-1 --brightness $new_brightness
+xrandr --output eDP --brightness $new_brightness
 
 # Print the new brightness value
 echo "The new brightness is set to $new_brightness"
