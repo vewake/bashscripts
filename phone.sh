@@ -36,7 +36,7 @@ if [[ "$PHONE_STATUS" == *"mHoldingDisplaySuspendBlocker=false"* ]]; then
     sleep 1
 
     # Input text and simulate pressing enter
-    adb  shell input text 1598753
+    adb  shell input text 12345678
 else
     echo "Phone is on."
     scrcpy  --turn-screen-off
