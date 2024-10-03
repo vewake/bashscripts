@@ -19,14 +19,13 @@ if [[ "$PHONE_STATUS" == *"mHoldingDisplaySuspendBlocker=false"* ]]; then
   sleep 3
   kdialog --passivepopup "scrcpy connected successfully" 2
 
-  adb shell input swipe 100 2000 100 60 500
-
   sleep 1
 
   phonePassword=$(kdialog --password "Phone Password")
+  adb shell input swipe 100 2000 100 60 500
   #🙂🙂🙂
   if [[ "$phonePassword"=="asdf" ]]; then
-    adb shell input text yourpasswordhere
+    adb shell input text yourPassword
   else
     adb shell input text $phonePassword
   fi
