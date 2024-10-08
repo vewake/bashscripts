@@ -1,5 +1,5 @@
 #!/bin/bash
-adb connect 192.0.0.2
+adb connect 192.168.0.124
 kdialog --passivepopup "adb successfully connected" 3
 # Check phone status using adb
 PHONE_STATUS=$(adb shell dumpsys power | grep 'mHoldingDisplaySuspendBlocker')
@@ -24,8 +24,8 @@ if [[ "$PHONE_STATUS" == *"mHoldingDisplaySuspendBlocker=false"* ]]; then
   phonePassword=$(kdialog --password "Phone Password")
   adb shell input swipe 100 2000 100 60 500
   #🙂🙂🙂
-  if [[ "$phonePassword"=="asdf" ]]; then
-    adb shell input text yourPassword
+  if [[ "$phonePassword"=="a" ]]; then
+    adb shell input text YourPassword
   else
     adb shell input text $phonePassword
   fi
